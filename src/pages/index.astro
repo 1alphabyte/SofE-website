@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Stripes from '../components/stripes.astro';
+import Navbar from '../components/navbar.astro';
+---
+
+<Layout title="Home | Society of Engineering">
+	<main>
+		<Navbar currPage='home' />
+		<div>
+			<Stripes />	
+		</div>
+	</main>
+</Layout>
+
+<style>
+	div {
+		top: 6vmin;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>

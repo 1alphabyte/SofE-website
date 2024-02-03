@@ -1,0 +1,77 @@
+---
+interface Props {
+	currPage: string;
+}
+
+const { currPage } = Astro.props;
+---
+<span></span>
+<nav>
+	<ul>
+		<li id="align">
+			<img src="/favicon.svg"><a href="#">Society of Engineering</a>
+		</li>
+		<li class:list={{ active: currPage === 'home' }}>
+			<a href="#">Home</a>
+		</li>
+		<li class:list={{ active: currPage === 'about'}}>
+			<a href="#">About</a>
+		</li>
+		<li>
+			<a href="#">Services</a>
+		</li>
+		<li>
+			<a href="#">Contact</a>
+		</li>
+	</ul>
+</nav>
+
+<style>
+  img {
+	width: 3vh;
+	padding-right: 1vh;
+  }
+  #align {
+	 display: flex;
+	 align-items: center;
+		margin-top: -.5vh;
+  }
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin-right: 20px;
+  }
+  li.active a {
+    color: gold;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+	span {
+		height: 5px;
+		width: 120%;
+		background-color: gold;
+		position: absolute;
+		top: 6%;
+		right: 1px;
+		z-index: 1;
+	}
+</style>

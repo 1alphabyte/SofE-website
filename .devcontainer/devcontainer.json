@@ -1,0 +1,32 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "workspaceFolder": "/workspaces/SofE-website",
+
+  "portsAttributes": {
+    "4321": {
+      "label": "Application"
+    }
+  },
+
+  "forwardPorts": [4321],
+
+  "postCreateCommand": "pnpm install",
+
+  "waitFor": "postCreateCommand",
+
+  "postAttachCommand": {
+    "Server": "pnpm start --host"
+  },
+
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["src/pages/index.astro"]
+    },
+    "vscode": {
+      "extensions": ["astro-build.astro-vscode", "esbenp.prettier-vscode", "GitHub.copilot", "dbaeumer.vscode-eslint", "streetsidesoftware.code-spell-checker"]
+    }
+  }
+}

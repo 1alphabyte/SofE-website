@@ -1,0 +1,45 @@
+<div>
+	<h1>WELCOME</h1>
+	<p>Are you a middle schooler here in Pleasanton? Want to learn more about the limitless possibilities that engineering can bring? You've come to the right place! Society of Engineering is a way for you to do just that.</p>
+	<br />
+</div>
+
+<style>
+	@keyframes flyin {
+		from {
+			transform: translateX(-90%);
+			opacity: 20%;
+		}
+		to {
+			transform: translateX(0); /* Move the text to its original position */
+			opacity: 1;
+		}
+	}
+
+	h1 {
+		color: #ffd300;
+		font-size: 56px;
+		animation: flyin 1s ease-in-out;
+	}
+	p {
+		color: #fff;
+		font-size: 20px;
+		animation: flyin .7s ease-in-out;
+		animation-delay: .5s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	div {
+		border-radius: 2vmin;
+		width: 50%;
+		text-align: center;
+		background-color: #000;
+		/* top | right | bottom | left */
+		padding: 5vh 5vw 5vh 5vw;
+		transition: .8s;
+	}
+	div:hover {
+		transform: scale(1.07);
+		transition: .8s;
+	}
+</style>
