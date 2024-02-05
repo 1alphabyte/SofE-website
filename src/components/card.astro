@@ -1,0 +1,43 @@
+---
+interface Props {
+	title: string,
+	description: string,
+	icon: string,
+	topPadding: string,
+	imgWidth: string;
+}
+
+const { title, description, icon, topPadding, imgWidth } = Astro.props;
+---
+
+<div id="outer">
+	<img src={`/icons/${icon}.svg`}>
+	<div id="text">
+		<h1>{ title }</h1> <br />
+		<p>{ description }</p>
+	</div>
+</div>
+<style define:vars={{ topPadding, imgWidth }}>
+	#outer {
+		background-color: #333333;
+		color: #fff;
+		padding: 20px;
+		width: 12.5vw;
+		height: 33vh;
+		margin-top: var(--topPadding);
+		position: relative;
+		margin-left: 5vh;
+		border-radius: 1vh;
+		transition: .5s;
+	}
+	#outer:hover {
+		transform: scale(1.05);
+		transition: .8s;
+		opacity: .98;
+		background-color: #393939;
+		border-radius: 1.5vh;
+	}
+	img {
+		width: var(--imgWidth);
+	}
+</style>

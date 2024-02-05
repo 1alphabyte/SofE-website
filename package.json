@@ -1,5 +1,6 @@
 {
-  "name": "@example/basics",
+  "name": "sofe-astro-website",
+  "author": "Utsav <https://git.utsav2.dev/utsav>",
   "type": "module",
   "version": "0.0.1",
   "private": true,

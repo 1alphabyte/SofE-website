@@ -5,20 +5,9 @@
 </div>
 
 <style>
-	@keyframes flyin {
-		from {
-			transform: translateX(-90%);
-			opacity: 20%;
-		}
-		to {
-			transform: translateX(0); /* Move the text to its original position */
-			opacity: 1;
-		}
-	}
-
 	h1 {
 		color: #ffd300;
-		font-size: 56px;
+		font-size: 3.5vw;
 		animation: flyin 1s ease-in-out;
 	}
 	p {
@@ -36,10 +25,11 @@
 		background-color: #000;
 		/* top | right | bottom | left */
 		padding: 5vh 5vw 5vh 5vw;
-		transition: .8s;
+		transition: .6s;
 	}
 	div:hover {
 		transform: scale(1.07);
-		transition: .8s;
+		transition: transform .8s;
+		background-color: #070707;
 	}
 </style>

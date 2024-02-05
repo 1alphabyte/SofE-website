@@ -1,0 +1,76 @@
+---
+import Card from "./card.astro"
+---
+<div id="container">
+	<div id="container-inner-left">
+		<h1>Engineering is the Future</h1>
+		<p>As humanity moves farther and farther into the endless potential of technology, robotics, and innovation, everything around us is changing and evolving. The driving force for this change is innovation, Whether that be chemical, mechanical or countless others, there's a place for everyone in the ever-changing field of engineering.</p>
+	</div>
+	<div id="container-inner-right">
+		<div>
+			<Card 
+				title="Mechanical"
+				description="The branch of engineering dealing with the design, construction, and use of machines"
+				icon="mech"
+				topPadding="1vmin"
+				imgWidth="3rem"
+			/>
+			<Card 
+				title="Civil"
+				description="The branch of engineering which designs and maintains roads, bridges, dams, and similar structures"
+				icon="civil"
+				topPadding="10vmin"
+				imgWidth="4rem"
+			/>
+		</div>
+		<div>
+			<Card 
+				title="Chemical"
+				description="The branch of engineering concerned with the design and operation of industrial chemical plants"
+				icon="chem"
+				topPadding="1vmin"
+				imgWidth="2.5rem"
+			/>
+			<Card 
+				title="Electrical"
+				description="The branch of engineering concerned with the study, design, and application of equipment, devices, and systems which use electricity"
+				icon="electrical"
+				topPadding="10vmin"
+				imgWidth="2rem"
+			/>
+		</div>
+	</div>
+</div>
+
+<style>
+	#container {
+		padding-top: 3vh;
+		display: flex;
+	}
+	#container-inner-left {
+		background-image: linear-gradient(45deg, #000, #caae23); 
+		text-align: center;
+		color: #cccccc;
+		width: 30%;
+		padding: 10vh 11vw;
+		padding-top: 25vh;
+	}
+
+	#container-inner-right {
+		width: 70%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	h1 {
+		font-size: 5vmin;
+		animation: flyin 1s ease-in-out;
+	}
+	p {
+		font-size: 2vmin;
+		animation: flyin .7s ease-in-out;
+		animation-delay: .5s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+</style>
