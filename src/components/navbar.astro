@@ -5,17 +5,17 @@ interface Props {
 
 const { currPage } = Astro.props;
 ---
-<span></span>
 <nav>
+	<span></span>
 	<ul>
 		<li id="align">
 			<img src="/favicon.svg"><a href="#">Society of Engineering</a>
 		</li>
 		<li class:list={{ active: currPage === 'home' }}>
-			<a href="#">Home</a>
+			<a href={ currPage === 'home' ? "#" : "/" }>Home</a>
 		</li>
 		<li class:list={{ active: currPage === 'about'}}>
-			<a href="#">About</a>
+			<a href={ currPage === 'about' ? "#" : "/about-us" }>About</a>
 		</li>
 		<li>
 			<a href="#">Services</a>
@@ -44,6 +44,7 @@ const { currPage } = Astro.props;
     background-color: #333;
     color: #fff;
     padding: 20px;
+	 z-index: 1;
   }
 
   ul {
@@ -70,7 +71,7 @@ const { currPage } = Astro.props;
 		width: 120%;
 		background-color: gold;
 		position: absolute;
-		top: 6%;
+		top: 1%;
 		right: 1px;
 		z-index: 1;
 	}
