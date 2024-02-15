@@ -1,0 +1,35 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  pnpm_config_cache: $(Pipeline.Workspace)/.pnpm-store
+
+steps:
+  - task: Cache@2
+    inputs:
+      key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
+      path: $(pnpm_config_cache)
+    displayName: Cache pnpm
+  - task: UseNode@1
+    inputs:
+      version: '21.x'
+  - script: |
+      corepack enable
+      corepack prepare pnpm@latest-8 --activate
+      pnpm config set store-dir $(pnpm_config_cache)
+    displayName: "Setup pnpm"
+
+  - script: |
+      pnpm install
+      pnpm run build
+    displayName: "Install dependencies and Build Astro project"
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: 'dist'
+      skip_app_build: true
+      skip_api_build: true
+      is_static_export: true
+      azure_static_web_apps_api_token: '942df221e820c00588d2b8eca8a87efee51debaaba60942961714aebbbbe3a914-a5853f49-8982-4df7-af88-eb38152fce1b01e89231'
