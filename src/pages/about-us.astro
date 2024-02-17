@@ -136,19 +136,25 @@ th, td {
 div {
 	color: #fff;
 }
+@media (max-width: 480px) {
+	#div2colum {
+		flex-direction: column;
+	}
+	#left-div {
+		width: 90%;
+	}
+}
 #left-div {
 	background-image: url('/bround-abt2.jpg');
 	background-size: cover;
-	padding: 30px;
+	padding: 2vh;
 	text-align: center;
 	font-size: 3rem;
 	border-radius: 10px;
-	width: 55%;
 }
 #right-div {
 	padding: 30px;
 	text-align: center;
-	padding-top: 130px;
 	font-size: 1.2rem;
 }
 #div2colum {

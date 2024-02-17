@@ -12,21 +12,37 @@ const { title, description, icon, topPadding, imgWidth } = Astro.props;
 
 <div id="outer">
 	<img src={`/icons/${icon}.svg`}>
-	<div id="text">
+	<div>
 		<h1>{ title }</h1> <br />
 		<p>{ description }</p>
 	</div>
 </div>
 <style define:vars={{ topPadding, imgWidth }}>
+	@media (max-width: 480px) {
+		#outer {
+			width: 70vw;
+			margin-top: 2vmin;
+		}
+		p {
+			margin-top: -7vmin;
+		}
+	}
+	@media (min-width: 480px) {
+		#outer {
+			width: 12.5vw;
+			margin-left: 5vh;
+			margin-top: var(--topPadding);
+		}
+		p {
+			margin-top: -2vmin;
+		}
+	}
 	#outer {
 		background-color: #333333;
 		color: #fff;
 		padding: 20px;
-		width: 12.5vw;
 		height: 33vh;
-		margin-top: var(--topPadding);
 		position: relative;
-		margin-left: 5vh;
 		border-radius: 1vh;
 		transition: .5s;
 	}

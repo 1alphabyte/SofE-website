@@ -9,7 +9,7 @@ const { currPage } = Astro.props;
 	<span></span>
 	<ul>
 		<li id="align">
-			<img src="/favicon.svg"><a href="#">Society of Engineering</a>
+			<img src="/favicon.svg" />Society of Engineering
 		</li>
 		<li class:list={{ active: currPage === 'home' }}>
 			<a href={ currPage === 'home' ? "#" : "/" }>Home</a>
@@ -63,9 +63,14 @@ const { currPage } = Astro.props;
   }
 
   a {
-    color: #fff;
-    text-decoration: none;
-  }
+   	color: #fff;
+   	text-decoration: none;
+		transition: .7s;
+	}
+	a:hover {
+		font-size: 1.1em;
+		transition: .7s;
+	}
 	span {
 		height: 5px;
 		width: 120%;
