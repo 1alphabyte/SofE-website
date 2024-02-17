@@ -43,6 +43,41 @@ import Card from "./card.astro"
 </div>
 
 <style>
+	@media (max-width: 480px) {
+		#container {
+			flex-direction: column;
+		}
+		#container-inner-left {
+			width: 100%;
+			padding: 10vh 5vw;
+			padding-top: 10vh;
+		}
+		#container-inner-right {
+			width: 100%;
+		}
+		h1 {
+			font-size: 10vmin;
+		}
+		p {
+			font-size: 5vmin;
+		}
+	}
+	@media (min-width: 480px) {
+		#container-inner-left {
+			width: 30%;
+			padding: 10vh 11vw;
+			padding-top: 25vh;
+		}
+		#container-inner-right {
+			width: 70%;
+		}
+		h1 {
+			font-size: 5vmin;
+		}
+		p {
+			font-size: 2vmin;
+		}
+	}
 	#container {
 		padding-top: 3vh;
 		display: flex;
@@ -51,23 +86,17 @@ import Card from "./card.astro"
 		background-image: linear-gradient(45deg, #000, #caae23); 
 		text-align: center;
 		color: #cccccc;
-		width: 30%;
-		padding: 10vh 11vw;
-		padding-top: 25vh;
 	}
 
 	#container-inner-right {
-		width: 70%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 	h1 {
-		font-size: 5vmin;
 		animation: flyin 1s ease-in-out;
 	}
 	p {
-		font-size: 2vmin;
 		animation: flyin .7s ease-in-out;
 		animation-delay: .5s;
 		animation-fill-mode: forwards;
