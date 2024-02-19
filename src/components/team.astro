@@ -1,0 +1,53 @@
+<div>
+	<h1>Our Mission</h1>
+	<p>Hello! We are the Society of Engineering, and we aspire to teach middle schoolers about engineering! As juniors taking advanced engineering courses at Amador Valley, we wish to spread our knowledge and educate people who are interested in the engineering pathway and increase interest in the diverse field. Our plans include lessons on core engineering concepts, mini projects all throughout the school year relating to each of the 5 major fields of engineering, and fun competitions!</p>
+</div>
+
+<style>
+	@media (max-width: 480px) {
+		h1 {
+			font-size: 10vw;
+		}
+		p {
+			font-size: 3.7vw;
+			margin-top: -3vh;
+		}
+		div {
+			width: 90%;
+			/* top | right | bottom | left */
+			padding: 5vh 5vw 1vh 5vw;
+			margin-top: 4.5vh;
+		}
+	}
+	@media (min-width: 480px) {
+		h1 {
+			font-size: 3vw;
+		}
+		p {
+			font-size: 20px;
+		}
+		div {
+			padding: 5vh 5vw 5vh 5vw;
+			width: 50%;
+		}
+	}
+	h1 {
+		animation: flyin 1s ease-in-out;
+		color: #fff;
+	}
+	p {
+		color: #fff;
+		animation: flyin .7s ease-in-out;
+		animation-delay: .7s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	div {
+		border-radius: 2vmin;
+		transition: .6s;
+	}
+	div:hover {
+		transform: scale(1.03);
+		transition: transform .8s;
+	}
+	</style>

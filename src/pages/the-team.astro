@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/navbar.astro';
+import Team from '../components/team-bround.astro';
+---
+
+<Layout title="The Team | Society of Engineering">
+	<main>
+		<Navbar currPage='team' />
+		<div>
+			<Team />
+		</div>
+		<div>
+			<table id="t1">
+				<tbody>
+					<tr>
+						<td id="mem1"><h1>Kaustubh Lole</h1></td>
+						<td><p>Hi, my name is Kaustubh Lole. I'm a junior at Amador Valley High School. Engineering has been my passion for a long time, and hopefully I can help teach all of you about the field I love. I'm in the PLTW Engineering pathway and have completed the second year of said pathway. Specifically, I am an aspiring mechanical engineer, and third year mechanical subdivision member of Amador Valley competitive robotics team, AVBotz.</p></td>
+					</tr>
+				</tbody>
+			</table>
+			<table id="t2">
+				<tbody>
+					<tr>
+						<td><p>Hello, my name is Niel and I'm in 11th grade at Amador Valley High School. I love to code and create new things, which is why I’m doing engineering. I have completed the second year of advanced engineering at Amador. During my free time I have coded programs such as guessing games and chat bots and also completed a personal project, building a controllable car.</p></td>
+						<td id="mem2"><h1>Niel Pal</h1></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	#t2 {
+		margin-top: -2vw;
+	}
+	table {
+		color: #fff;
+		margin: 2vw;
+	}
+	#t1 {
+		animation: flyin .5s ease-in-out;
+		animation-delay: .6s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	#t2 {
+		animation: flyin .4s ease-in-out;
+		animation-delay: .8s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	th, td {
+	border: .5px solid #fff;
+	}
+	h1 {
+		font-weight: 750;
+	}
+	@media (max-width: 480px) {
+		td {
+			display: block;
+			padding: 5vw;
+		}
+		p {
+			font-size: 1em;
+		}
+		h1 {
+			font-size: 3em;
+		}
+		#t2 tbody tr {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+		#mem2 {
+			padding: 10vw;
+		}
+	}
+	@media (min-width: 480px) {
+		p {
+			font-size: 1.5em;
+		}
+		td {
+			padding: 15vh;
+		}
+		h1 {
+			font-size: 4em;
+		}
+		#mem2 {
+			padding: 19vh;
+		}
+	}
+	td {
+		text-align: center;
+	}
+
+	#mem1 {
+		background-image: url('/teammem1-bround.jpg');
+	}
+	#mem2 {
+		background-image: url('/teammem2-bround.jpg');
+	}
+</style>
