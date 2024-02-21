@@ -35,4 +35,4 @@ steps:
       skip_api_build: true
       is_static_export: true
       production_branch: "main"
-      azure_static_web_apps_api_token: '942df221e820c00588d2b8eca8a87efee51debaaba60942961714aebbbbe3a914-a5853f49-8982-4df7-af88-eb38152fce1b01e89231'
+      azure_static_web_apps_api_token: '2619df88451b09ba548847a8e4164fb2172caabe15b2ea51f72eaa5d870664184-50160537-991f-4f5a-b6f1-3cfa95fc424f010331341'

@@ -2,7 +2,7 @@
   "name": "sofe-astro-website",
   "author": "Utsav <https://git.utsav2.dev/utsav>",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -12,6 +12,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.3.0"
+    "astro": "^4.4.2"
   }
 }
