@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/navbar.astro';
+---
+
+<Layout title="Contact Us | Society of Engineering">
+	<main>
+		<Navbar currPage='contact' />
+		<div id="div2colum">
+			<div id="left-div">
+				<h1>Get in <br /> Touch</h1>
+			</div>	
+			<div id="right-div">
+				<form>
+					<div id="form-div-align">
+						<div class="form-div">
+							<label for="fname">First Name*</label>
+							<input type="text" id="fname" name="fname" required/>
+						</div>
+						<div class="form-div">
+							<label for="lname">Last Name</label>
+							<input type="text" id="lname" name="lname"/>
+						</div>
+					</div>
+					<div class="form-div">
+						<label for="eml">Email*</label>
+						<input type="email" id="eml" name="eml" required/>
+					</div>
+					<div class="form-div">
+						<label for="msg">Message*</label>
+						<textarea id="msg" required/>
+					</div>
+					<input type="submit" value="Submit" id="btn-click"/>
+				</form>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	#btn-click {
+		padding: 5px;
+		margin: 10px 0;
+		border: 1px solid #ffd300;
+		background-color: #ffd300;
+		color: #000;
+		transition: .5s;
+		width: 37vw;
+	}
+	#btn-click:hover {
+		background-color: transparent;
+		color: #ffd300;
+		transition: .5s;
+	}
+	#fname {
+		margin-right: 10px;
+		width: 17.5vw;
+	}
+	#lname {
+		width: 17.5vw;
+	}
+	#msg {
+		padding: 5px;
+		/* margin: 10px 0; */
+		border: 1px solid #fff;
+		background-color: transparent;
+		color: #fff;
+		width: 36.5vw;
+		height: 15vh;
+	}
+	input {
+		padding: 5px;
+		margin: 10px 0;
+		border: 1px solid #fff;
+		background-color: transparent;
+		color: #fff;
+		width: 36.5vw;
+	}
+	input:hover {
+		border: 1.5px solid #fff;
+	}
+	.form-div {
+		display: flex;
+		flex-direction: column;
+	}
+	label {
+		text-align: left;
+	}
+	#form-div-align {
+		display: flex;
+		justify-content: center;
+	}
+	@media (max-width: 480px) {
+		#div2colum {
+			flex-direction: column;
+		}
+		#left-div {
+			width: 90%;
+		}
+	}
+	#left-div {
+		background-image: url('/bround-abt2.jpg');
+		background-size: cover;
+		padding: 15vh;
+		text-align: center;
+		font-size: 2rem;
+	}
+	#right-div {
+		padding: 25px;
+		text-align: center;
+		font-size: 1.2rem;
+	}
+	#div2colum {
+		display: flex;
+		top: 6vmin;
+		position: relative;
+	}
+	div {
+		color: #fff;
+	}
+	form {
+		padding: 10vh;
+	}
+</style>

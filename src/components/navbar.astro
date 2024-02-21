@@ -20,8 +20,8 @@ const { currPage } = Astro.props;
 		<li class:list={{ active: currPage === 'team'}}>
 			<a href={ currPage === 'team' ? "#" : "/the-team" }>The Team</a>
 		</li>
-		<li>
-			<a href="#">Contact</a>
+		<li class:list={{ active: currPage === 'contact'}}>
+			<a href={ currPage === 'contact' ? "#" : "/contact-us" }>Contact Us</a>
 		</li>
 	</ul>
 </nav>
