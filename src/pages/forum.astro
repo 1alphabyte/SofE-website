@@ -5,6 +5,34 @@ import Navbar from '../components/navbar.astro';
 
 <Layout title="Forum | Society of Engineering">
 	<main>
-		<Navbar currPage='forum' />
+		<Navbar currPage='forum' /><br /><br />
+		<div id="fiv1">
+			<h1>Forum</h1>
+			<p>You've reached the forum page! Here, you can ask questions, interact with posts, and get information!</p>
+			<button>Start Now</button>
+		</div>
 	</main>
 </Layout>
+
+<style>
+	#fiv1 {
+		padding: 10vh;
+		font-size: x-large;
+		animation: flyin .8s ease-in-out;
+		text-align: center;
+		background-color: #282828;
+	}
+	button {
+		padding: 5px;
+		border: 1px solid #ffd300;
+		background-color: #ffd300;
+		color: #000;
+		transition: .5s;
+		width: 10vh;
+	}
+	button:hover {
+		background-color: transparent;
+		color: #ffd300;
+		transition: .5s;
+	}
+</style>

@@ -36,6 +36,12 @@ import Navbar from '../components/navbar.astro';
 		</div>
 	</main>
 </Layout>
+<script>
+	document.querySelector('form').addEventListener('submit', (e) => {
+		e.preventDefault();
+		alert(`Hey, ${document.getElementById('fname').value}. The backend code for this form is not set up.`);
+	});
+</script>
 
 <style>
 	#btn-click {
@@ -52,20 +58,10 @@ import Navbar from '../components/navbar.astro';
 		color: #ffd300;
 		transition: .5s;
 	}
-	#fname {
-		margin-right: 10px;
-		width: 17.5vw;
-	}
-	#lname {
-		width: 17.5vw;
-	}
 	#msg {
 		padding: 5px;
-		/* margin: 10px 0; */
 		border: 1px solid #fff;
 		background-color: transparent;
-		color: #fff;
-		width: 36.5vw;
 		height: 15vh;
 	}
 	input {
@@ -73,8 +69,6 @@ import Navbar from '../components/navbar.astro';
 		margin: 10px 0;
 		border: 1px solid #fff;
 		background-color: transparent;
-		color: #fff;
-		width: 36.5vw;
 	}
 	input:hover {
 		border: 1.5px solid #fff;
@@ -86,16 +80,43 @@ import Navbar from '../components/navbar.astro';
 	label {
 		text-align: left;
 	}
-	#form-div-align {
-		display: flex;
-		justify-content: center;
-	}
 	@media (max-width: 480px) {
 		#div2colum {
 			flex-direction: column;
 		}
 		#left-div {
-			width: 90%;
+			padding: 10vh;
+		}
+		form {
+			padding: 5vh;
+		}
+	}
+	@media (min-width: 480px) {
+		#left-div {
+			padding: 15vh;
+		}
+		#right-div {
+			padding: 5vh;
+		}
+		#form-div-align {
+			display: flex;
+			justify-content: center;
+		}
+		#fname {
+			margin-right: 10px;
+			width: 17.5vw;
+		}
+		#lname {
+			width: 17.5vw;
+		}
+		form {
+			padding: 10vh;
+		}
+		input {
+			width: 36.5vw;
+		}
+		#msg {
+			width: 36.5vw;
 		}
 	}
 	#left-div {
@@ -106,7 +127,6 @@ import Navbar from '../components/navbar.astro';
 		font-size: 2rem;
 	}
 	#right-div {
-		padding: 25px;
 		text-align: center;
 		font-size: 1.2rem;
 	}
@@ -114,11 +134,5 @@ import Navbar from '../components/navbar.astro';
 		display: flex;
 		top: 6vmin;
 		position: relative;
-	}
-	div {
-		color: #fff;
-	}
-	form {
-		padding: 10vh;
 	}
 </style>
