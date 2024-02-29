@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/navbar.astro';
 import Team from '../components/team-bround.astro';
+import Footer from '../components/footer.astro';
 ---
 
 <Layout title="The Team | Society of Engineering">
@@ -29,33 +30,10 @@ import Team from '../components/team-bround.astro';
 			</table>
 		</div>
 	</main>
+	<Footer />
 </Layout>
 
 <style>
-	#t2 {
-		margin-top: -2vw;
-	}
-	table {
-		margin: 2vw;
-	}
-	#t1 {
-		animation: flyin .5s ease-in-out;
-		animation-delay: .6s;
-		animation-fill-mode: forwards;
-		opacity: 0;
-	}
-	#t2 {
-		animation: flyin .4s ease-in-out;
-		animation-delay: .8s;
-		animation-fill-mode: forwards;
-		opacity: 0;
-	}
-	th, td {
-	border: .5px solid #fff;
-	}
-	h1 {
-		font-weight: 750;
-	}
 	@media (max-width: 480px) {
 		td {
 			display: block;
@@ -89,10 +67,29 @@ import Team from '../components/team-bround.astro';
 			padding: 19vh;
 		}
 	}
+	table {
+		margin: 2vw;
+	}
+	#t1 {
+		animation: flyin .5s ease-in-out .6s;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	#t2 {
+		animation: flyin .4s ease-in-out .8s;
+		margin-top: -2vw;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+	th, td {
+		border: .5px solid #fff;
+	}
 	td {
 		text-align: center;
 	}
-
+	h1 {
+		font-weight: 750;
+	}
 	#mem1 {
 		background-image: url('/teammem1-bround.jpg');
 	}

@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/navbar.astro';
+import Abtt2 from '../components/abt-t2.astro';
+import Footer from '../components/footer.astro';
 ---
 
 <Layout title="About Us | Society of Engineering">
@@ -21,12 +23,10 @@ import Navbar from '../components/navbar.astro';
 							</svg>
 						</div>
 					</td>
-					<td>
-						<h2>Education</h2>
-						<p>
-							Learning engineering is and will be one of the most important skills a person can have in their lives. Whether you want to be an engineer of not, having a basic knowledge of the world of the future is a must.
-						</p>
-					</td>
+					<Abtt2 
+						t="Education"
+						d="Learning engineering is and will be one of the most important skills a person can have in their lives. Whether you want to be an engineer of not, having a basic knowledge of the world of the future is a must."
+					/>
 				</tr>
 				<tr>
 					<td>
@@ -43,12 +43,10 @@ import Navbar from '../components/navbar.astro';
 							</svg>
 						</div>	
 					</td>
-					<td>
-						<h2>Exposure</h2>
-						<p>
-							Not everyone knows exactly what they want to do in life. For this reason, we hope to expose our members as much about as many different fields of engineering as we can. There truly is something for everyone!
-						</p>
-					</td>
+					<Abtt2 
+						t="Exposure"
+						d="Not everyone knows exactly what they want to do in life. For this reason, we hope to expose our members as much about as many different fields of engineering as we can. There truly is something for everyone!"
+					/>
 				</tr>
 				<tr>
 					<td>
@@ -60,12 +58,10 @@ import Navbar from '../components/navbar.astro';
 							</svg>
 						</div>
 					</td>
-					<td>
-						<h2>Building Relations</h2>
-						<p>
-							Being an engineer isn't just about being able to build things or know all the theories of science. It's also necessary to be able to work with a team and build relationships.
-						</p>
-					</td>
+					<Abtt2 
+						t="Building Relations"
+						d="Being an engineer isn't just about being able to build things or know all the theories of science. It's also necessary to be able to work with a team and build relationships."
+					/>
 				</tr>
 				<tr>
 					<td>
@@ -77,12 +73,10 @@ import Navbar from '../components/navbar.astro';
 							</svg>
 						</div>
 					</td>
-					<td>
-						<h2>Have Fun!</h2>
-						<p>
-							While learning and applying engineering may be time consuming and difficult at times, having fun is one of our major goals. As the saying goes, "enjoy what you do and you'll never have to work another day in your life". 
-						</p>
-					</td>
+					<Abtt2 
+						t="Have Fun!"
+						d='While learning and applying engineering may be time consuming and difficult at times, having fun is one of our major goals. As the saying goes, "enjoy what you do and you&#8217;ll never have to work another day in your life".'
+					/>
 				</tr>
 			</tbody>
 		</table>
@@ -96,9 +90,18 @@ import Navbar from '../components/navbar.astro';
 			</div>
 		</div>
 	</main>
+	<Footer />
 </Layout>
 
 <style>
+	@media (max-width: 480px) {
+		#div2colum {
+			flex-direction: column;
+		}
+		#left-div {
+			width: 90%;
+		}
+	}
 	#fiv1 {
 		background-image: url('/bround-abt.jpg');
 		background-size: cover;
@@ -124,21 +127,12 @@ import Navbar from '../components/navbar.astro';
 	}
 	table {
 		margin: 1vh;
-		animation: flyin .5s ease-in-out;
-		animation-delay: .4s;
+		animation: flyin .5s ease-in-out .4s;
 		animation-fill-mode: forwards;
 		opacity: 0;
 	}
-div {
+	div {
 		color: #fff;
-	}
-	@media (max-width: 480px) {
-		#div2colum {
-			flex-direction: column;
-		}
-		#left-div {
-			width: 90%;
-		}
 	}
 	#left-div {
 		background-image: url('/bround-abt2.jpg');

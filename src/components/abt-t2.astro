@@ -1,0 +1,12 @@
+---
+interface Props {
+	t: string,
+	d: string,
+}
+
+const { t, d } = Astro.props;
+---
+<td>
+	<h2>{ t }</h2>
+	<p>{ d }</p>
+</td>
