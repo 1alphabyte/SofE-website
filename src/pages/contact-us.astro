@@ -11,6 +11,9 @@ import Navbar from '../components/navbar.astro';
 				<h1>Get in <br /> Touch</h1>
 			</div>	
 			<div id="right-div">
+				<div id="loading" hidden>
+					Please wait...<div class="loader"></div>
+				</div>
 				<form>
 					<div id="form-div-align">
 						<div class="form-div">
@@ -37,9 +40,30 @@ import Navbar from '../components/navbar.astro';
 	</main>
 </Layout>
 <script>
-	document.querySelector('form').addEventListener('submit', (e) => {
+	let f = document.querySelector('form');
+	let l = document.getElementById('loading');
+	f.addEventListener('submit', (e) => {
 		e.preventDefault();
-		alert(`Hey, ${document.getElementById('fname').value}. The backend code for this form is not set up.`);
+		f.hidden = true;
+		l.hidden = false;
+		fetch("https://script.google.com/macros/s/AKfycbxSEFrb29Kzd_4XcqXhFK1NMnJUEsiaQNdG_IonLMDO8B5Qc0_T3SfEg9_vSCLC6DJB/exec?etkn=Supersecurevalue", {
+      	redirect: "follow",
+			method: "POST",
+			body: JSON.stringify({ name: document.getElementById('fname').value,
+			 lname: document.getElementById('lname').value, 
+			 email: document.getElementById('eml').value, 
+			 msg: document.getElementById('msg').value 
+			}),
+			headers: {
+				"Content-Type": "text/plain;charset=utf-8",
+			},
+		}).then(k => k.json()).then((s) => {
+			console.log(s);
+			l.hidden = true;
+			f.reset();
+			f.hidden = false;
+			alert("Message sent successfully\nWe will get back to you soon!");
+		});
 	});
 </script>
 
@@ -69,6 +93,7 @@ import Navbar from '../components/navbar.astro';
 		margin: 10px 0;
 		border: 1px solid #fff;
 		background-color: transparent;
+		color: #fff;
 	}
 	input:hover {
 		border: 1.5px solid #fff;
@@ -134,5 +159,22 @@ import Navbar from '../components/navbar.astro';
 		display: flex;
 		top: 6vmin;
 		position: relative;
+	}
+	textarea {
+		color: #fff;
+	}
+	.loader {
+		width: 50px;
+		height: 50px;
+		border: 5px solid #f3f3f3;
+		border-radius: 50%;
+		border-top-color: #3498db; /* Animation color */
+		animation: spin 1s linear infinite;
+		display: inline-block;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
 	}
 </style>
