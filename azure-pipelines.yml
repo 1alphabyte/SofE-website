@@ -35,4 +35,4 @@ steps:
       skip_api_build: true
       is_static_export: true
       production_branch: "main"
-      azure_static_web_apps_api_token: $(deployment_token)
+      azure_static_web_apps_api_token: $(staticWebAppDeploymentToken)
