@@ -29,7 +29,7 @@ const { title, description, icon, topPadding, imgWidth } = Astro.props;
 	}
 	@media (min-width: 480px) {
 		#outer {
-			width: 12.5vw;
+			max-width: 15vw;
 			margin-left: 5vh;
 			margin-top: var(--topPadding);
 		}
@@ -40,7 +40,7 @@ const { title, description, icon, topPadding, imgWidth } = Astro.props;
 	#outer {
 		background-color: #333333;
 		padding: 20px;
-		height: 33vh;
+		min-height: 33vh;
 		position: relative;
 		border-radius: 1vh;
 		transition: .5s;
@@ -54,5 +54,8 @@ const { title, description, icon, topPadding, imgWidth } = Astro.props;
 	}
 	img {
 		width: var(--imgWidth);
+	}
+	h1 {
+		font-size: x-large;
 	}
 </style>
