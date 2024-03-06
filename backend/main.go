@@ -42,7 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to parse body", http.StatusBadRequest)
 	}
 
-	var re = regexp.MustCompile(`^[^@]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/i`)
+	var re = regexp.MustCompile(`^[^@]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$`)
 	if !re.MatchString(data.Email) {
 		http.Error(w, "Invalid email", http.StatusBadRequest)
 		return
