@@ -12,13 +12,12 @@ import (
 )
 
 type dbData struct {
-	Key   string   `json:"key"`
 	Value FormData `json:"value"`
 }
 
 type FormData struct {
 	Name  string `json:"name"`
-	Lname string `json:"lname" omit_empty:"true"`
+	Lname string `json:"lname,omitempty"`
 	Email string `json:"email"`
 	Msg   string `json:"msg"`
 }
@@ -56,20 +55,22 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	d, err := deta.New()
 	if err != nil {
 		http.Error(w, "failed to create deta client", http.StatusInternalServerError)
+		return
 	}
 	db, err := base.New(d, "testing")
 	if err != nil {
 		http.Error(w, "failed to create deta base", http.StatusInternalServerError)
+		return
 	}
 
-	tmp := &dbData{
-		Key:   data.Name,
+	_, err = db.Put(&dbData{
 		Value: data,
-	}
-	_, err = db.Put(tmp)
+	})
 	if err != nil {
 		http.Error(w, "failed to put data", http.StatusInternalServerError)
+		return
 	}
+	w.Write([]byte("Success!"))
 }
 
 func main() {
@@ -78,7 +79,7 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/add", handler)
 
 	log.Printf("App listening on port %s!", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {

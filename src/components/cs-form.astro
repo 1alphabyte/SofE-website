@@ -27,18 +27,14 @@
 		e.preventDefault();
 		f.hidden = true;
 		l.hidden = false;
-		fetch("https://script.google.com/macros/s/AKfycbxSEFrb29Kzd_4XcqXhFK1NMnJUEsiaQNdG_IonLMDO8B5Qc0_T3SfEg9_vSCLC6DJB/exec?etkn=Supersecurevalue", {
-      	redirect: "follow",
+		fetch("/api/add?etkn=Supersecurevalue", {
 			method: "POST",
 			body: JSON.stringify({ name: (document.getElementById('fname') as HTMLInputElement).value,
 			lname: (document.getElementById('lname') as HTMLInputElement).value, 
 			email: (document.getElementById('eml') as HTMLInputElement).value, 
 			msg: (document.getElementById('msg') as HTMLTextAreaElement).value
 			}),
-			headers: {
-				"Content-Type": "text/plain;charset=utf-8",
-			},
-		}).then(k => k.json()).then((s) => {
+		}).then((s) => {
 			l.hidden = true;
 			f.hidden = false;
 			if (s.status === 200) {
