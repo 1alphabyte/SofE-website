@@ -5,17 +5,17 @@ trigger:
     
 pool:
   vmImage: ubuntu-latest
-  container: ghcr.io/1alphabyte/nodedetabuild:latest
 
+container: ghcr.io/1alphabyte/nodedetabuild:latest
 steps:
   - script: |
-      pnpm install
-      pnpm run build
+      sudo pnpm install
+      sudo pnpm run build
     displayName: "Install dependencies and Build Astro project"
   - script: |
-      echo "{\"access_token\":\"$(SPACE_ACCESS_TOKEN)\"}" > /root/.detaspace/space_tokens
-      cat /root/.detaspace/space_tokens
-      mv .space Spacefile ./dist
+      echo "{\"access_token\":\"$(SPACE_ACCESS_TOKEN)\"}" | sudo tee /root/.detaspace/space_tokens
+      sudo mv .space Spacefile ./dist
+      sudo chmod -R 777 ./dist
       cd ./dist
-      space push
+      sudo /root/.detaspace/bin/space push
     displayName: "Deploy to Deta"

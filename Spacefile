@@ -6,3 +6,4 @@ micros:
     engine: static
     primary: true
     serve: ./
+    public: true
