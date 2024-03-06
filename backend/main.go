@@ -31,7 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Password not provided", http.StatusUnauthorized)
 		return
 	}
-	if r.URL.Query().Get("etkn") != "Supersecurevalue" {
+	if r.URL.Query().Get("etkn") != "95d9d334b7dc7fd211b3" {
 		http.Error(w, "Invalid password", http.StatusForbidden)
 		return
 	}

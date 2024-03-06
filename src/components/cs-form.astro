@@ -27,8 +27,12 @@
 		e.preventDefault();
 		f.hidden = true;
 		l.hidden = false;
-		fetch("/api/add?etkn=Supersecurevalue", {
+		fetch("/api/add?etkn=95d9d334b7dc7fd211b3", {
 			method: "POST",
+			mode: "same-origin",
+			headers: {
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify({ name: (document.getElementById('fname') as HTMLInputElement).value,
 			lname: (document.getElementById('lname') as HTMLInputElement).value, 
 			email: (document.getElementById('eml') as HTMLInputElement).value, 
