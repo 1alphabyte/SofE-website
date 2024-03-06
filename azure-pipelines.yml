@@ -5,34 +5,17 @@ trigger:
     
 pool:
   vmImage: ubuntu-latest
-
-variables:
-  pnpm_config_cache: $(Pipeline.Workspace)/.pnpm-store
+  container: ghcr.io/1alphabyte/nodedetabuild:latest
 
 steps:
-  - task: Cache@2
-    inputs:
-      key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
-      path: $(pnpm_config_cache)
-    displayName: Cache pnpm
-  - task: UseNode@1
-    inputs:
-      version: '21.x'
-  - script: |
-      corepack enable
-      corepack prepare pnpm@latest-8 --activate
-      pnpm config set store-dir $(pnpm_config_cache)
-    displayName: "Setup pnpm"
-
   - script: |
       pnpm install
       pnpm run build
     displayName: "Install dependencies and Build Astro project"
-  - task: AzureStaticWebApp@0
-    inputs:
-      app_location: 'dist'
-      skip_app_build: true
-      skip_api_build: true
-      is_static_export: true
-      production_branch: "main"
-      azure_static_web_apps_api_token: $(staticWebAppDeploymentToken)
+  - script: |
+      echo "{\"access_token\":\"$(SPACE_ACCESS_TOKEN)\"}" > /root/.detaspace/space_tokens
+      cat /root/.detaspace/space_tokens
+      mv .space Spacefile ./dist
+      cd ./dist
+      space push
+    displayName: "Deploy to Deta"
