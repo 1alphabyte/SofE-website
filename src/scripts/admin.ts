@@ -9,6 +9,9 @@ async function fetchData() {
 		le.hidden = true;
 		h1.innerText = 'No data found';
 		return;
+	} else if (res.status === 403 || res.status === 401) {
+		document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api;';
+		return location.reload();
 	} else if (!res.ok) {
 		le.hidden = true;
 		h1.innerText = 'An unexpected error occurred.\n Please try again later or contact support.';
@@ -39,6 +42,9 @@ async function fetchData() {
 			});
 			if (r.ok) {
 				(e.target as HTMLTableCellElement).parentElement.remove();
+				if (document.querySelectorAll('tbody tr').length === 0) {
+					return location.reload();
+				}
 			}
 		});
 	});
@@ -71,6 +77,8 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 			let b = await s.json();
 			console.log(b);
 			document.cookie = `token=${b.sessionToken}; path=/api; samesite=strict; expires=${new Date(b.expiresAt * 1000).toUTCString()}; secure`;
+			localStorage.setItem('tokenExists', 'true');
+			localStorage.setItem('tokenExpiry', new Date(b.expiresAt * 1000).toString());
 			return fetchData();
 		} else if (s.status === 403) {
 			return alert("Invalid username or password");
@@ -79,3 +87,9 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 		alert("An error occured while logging in\nPlease try again. We apologize for the inconvenience.");
 	});
 });
+
+if (localStorage.getItem('tokenExists') === 'true' && new Date(localStorage.getItem('tokenExpiry')) > new Date()) {
+	document.getElementById("main").hidden = false;
+	document.querySelector('body').removeChild(document.getElementById("login-form"));
+	fetchData();
+}
