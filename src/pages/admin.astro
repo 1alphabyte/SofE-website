@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Loader from '../components/loader.astro';
+---
+
+<Layout title="Admin">
+	<form id="login-form">
+		<h1>Admin Login</h1>
+		<input type="text" id="username" placeholder="Username" required>
+		<input type="password" id="password" placeholder="Password" required>
+		<button type="submit">Login</button>
+	</form>
+	<Loader />
+	<div id="main" hidden>
+		<h1>"Contact Us" form responces</h1>
+
+		<table id="data-table" hidden>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Message</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<footer>&copy;Copyright 2024 Save the Earth Technologies LLC. d/b/a "Save the Earth Inc."</footer>
+	</div>
+</Layout>
+
+<script src="../scripts/admin.ts"></script>
+<style is:global>
+	th, td {
+		border: 1px solid #fff;
+		padding: 8px;
+	}
+</style>
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	footer {
+		padding: 5px;
+		/* top | left and right | bottom */
+		margin: 0 .5rem .55rem;
+		background-color: #43494c;
+		color: #e8e6e3;
+		border-radius: .6rem;
+		position: fixed;
+		bottom: 0;
+		text-align: center;
+	}
+	
+	.del {
+		cursor: pointer;
+		color: red;
+	}
+	#login-form {
+		width: 250px;
+		margin: 0 auto;
+		padding: 20px;
+		border-radius: 5px;
+		background-color: #f8f8f8;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	#login-form h1 {
+		text-align: center;
+		color: #333;
+	}
+
+	#login-form input {
+		padding: 10px;
+		margin: 10px 0;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
+	#login-form button {
+		padding: 10px;
+		border: none;
+		border-radius: 5px;
+		background-color: #007BFF;
+		color: #fff;
+		cursor: pointer;
+		border: 1px solid #007BFF;
+	}
+
+	#login-form button:hover {
+		background-color: transparent;
+		color: #007BFF;
+	}
+</style>
