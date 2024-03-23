@@ -38,6 +38,9 @@ async function fetchData() {
 	document.querySelectorAll('.del').forEach((el) => {
 		el.addEventListener('click', async (e) => {
 			const key = (e.target as HTMLTableCellElement).dataset.key;
+			if (!confirm("Are you sure?")) {
+				return alert("Alright!")
+			}
 			const r = await fetch(`/api/delete`, {
 				method: 'DELETE',
 				body: key,
@@ -95,3 +98,5 @@ if (localStorage.getItem('tokenExists') === 'true' && new Date(localStorage.getI
 	document.querySelector('body').removeChild(document.getElementById("login-form"));
 	fetchData();
 }
+
+console.info("Website made by Utsav (https://git.utsav2.dev/utsav)");

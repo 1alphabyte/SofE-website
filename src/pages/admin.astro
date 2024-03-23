@@ -12,7 +12,7 @@ import Loader from '../components/loader.astro';
 	</form>
 	<Loader />
 	<div id="main" hidden>
-		<h1>"Contact Us" form responces</h1>
+		<h1>"Contact Us" form responses</h1>
 
 		<table id="data-table" hidden>
 			<thead>
@@ -25,8 +25,8 @@ import Loader from '../components/loader.astro';
 			<tbody>
 			</tbody>
 		</table>
-		<footer>&copy;Copyright 2024 Save the Earth Technologies LLC. d/b/a "Save the Earth Inc."</footer>
 	</div>
+	<footer>&copy;Copyright 2024 Save the Earth Technologies LLC.</footer>
 </Layout>
 
 <script src="../scripts/admin.ts"></script>
@@ -34,6 +34,11 @@ import Loader from '../components/loader.astro';
 	th, td {
 		border: 1px solid #fff;
 		padding: 8px;
+	}
+
+	.del {
+		cursor: pointer;
+		color: red;
 	}
 </style>
 
@@ -54,10 +59,6 @@ import Loader from '../components/loader.astro';
 		text-align: center;
 	}
 	
-	.del {
-		cursor: pointer;
-		color: red;
-	}
 	#login-form {
 		width: 250px;
 		margin: 0 auto;
