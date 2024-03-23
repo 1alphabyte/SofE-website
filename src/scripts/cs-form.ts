@@ -3,7 +3,7 @@ let l = document.getElementById('loading');
 f.addEventListener('submit', (e) => {
 	e.preventDefault();
 	f.hidden = true;
-	le.hidden = false;
+	l.hidden = false;
 	fetch("/api/add?etkn=95d9d334b7dc7fd211b3", {
 		method: "POST",
 		headers: {
@@ -15,7 +15,7 @@ f.addEventListener('submit', (e) => {
 		msg: (document.getElementById('msg') as HTMLTextAreaElement).value
 		}),
 	}).then((s) => {
-		le.hidden = true;
+		l.hidden = true;
 		f.hidden = false;
 		if (s.status === 200) {
 			f.reset();
