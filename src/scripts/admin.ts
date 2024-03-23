@@ -11,6 +11,8 @@ async function fetchData() {
 		return;
 	} else if (res.status === 403 || res.status === 401) {
 		document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api;';
+		localStorage.removeItem('tokenExists');
+		localStorage.removeItem('tokenExpiry');
 		return location.reload();
 	} else if (!res.ok) {
 		le.hidden = true;
