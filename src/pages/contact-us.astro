@@ -33,15 +33,16 @@ import Form from '../components/cs-form.astro';
 	@media (min-width: 480px) {
 		#left-div {
 			padding: 15vh;
+			padding-top: 25vh;
 		}
 		#right-div {
 			padding: 5vh;
+			padding-top: 15vh;
 		}
 	}
 	#left-div {
 		background-image: url('/bround-abt2.jpg');
 		background-size: cover;
-		padding: 15vh;
 		text-align: center;
 		font-size: 2rem;
 	}
@@ -56,6 +57,7 @@ import Form from '../components/cs-form.astro';
 		display: flex;
 		top: 6vmin;
 		position: relative;
+		height: calc(100vh - 7vmin);
 	}
 	.loader {
 		width: 50px;
