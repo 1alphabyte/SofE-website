@@ -12,7 +12,7 @@ import Loader from '../components/loader.astro';
 	</form>
 	<Loader />
 	<div id="main" hidden>
-		<h1>"Contact Us" form responses</h1>
+		<h1>"Contact Us" form responses</h1> <button id="mgm">Change password</button>
 
 		<table id="data-table" hidden>
 			<thead>
@@ -26,6 +26,15 @@ import Loader from '../components/loader.astro';
 			</tbody>
 		</table>
 	</div>
+	<dialog>
+		<button id="close">&#10006;</button>
+		<form id="changepwd-form">
+			<h1>Change your password</h1>
+			<input type="password" id="oldPwd" placeholder="Current password" required autofocus>
+			<input type="password" id="newPwd" placeholder="New password" required>
+			<button type="submit">Submit</button>
+		</form>
+	</dialog>
 	<footer>&copy;Copyright 2024 Save the Earth Technologies LLC.</footer>
 </Layout>
 
@@ -43,6 +52,20 @@ import Loader from '../components/loader.astro';
 </style>
 
 <style>
+	dialog {
+		border-radius: 10px;
+		border: none;
+	}
+	dialog::backdrop {
+		background-image: linear-gradient(
+			45deg,
+			magenta,
+			rebeccapurple,
+			dodgerblue,
+			green
+		);
+		opacity: 0.9;
+	}
 	table {
 		width: 100%;
 		border-collapse: collapse;
@@ -59,7 +82,7 @@ import Loader from '../components/loader.astro';
 		text-align: center;
 	}
 	
-	#login-form {
+	form {
 		width: 250px;
 		margin: 0 auto;
 		padding: 20px;
@@ -70,19 +93,19 @@ import Loader from '../components/loader.astro';
 		align-items: center;
 	}
 
-	#login-form h1 {
+	form h1 {
 		text-align: center;
 		color: #333;
 	}
 
-	#login-form input {
+	form input {
 		padding: 10px;
 		margin: 10px 0;
 		border: 1px solid #ccc;
 		border-radius: 5px;
 	}
 
-	#login-form button {
+	form button {
 		padding: 10px;
 		border: none;
 		border-radius: 5px;
@@ -92,7 +115,7 @@ import Loader from '../components/loader.astro';
 		border: 1px solid #007BFF;
 	}
 
-	#login-form button:hover {
+	form button:hover {
 		background-color: transparent;
 		color: #007BFF;
 	}

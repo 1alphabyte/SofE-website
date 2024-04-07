@@ -15,29 +15,6 @@ import (
 	"github.com/google/uuid"
 )
 
-type dbData struct {
-	Key   string   `json:"key,omitempty"`
-	Value FormData `json:"value"`
-}
-
-type FormData struct {
-	Name  string `json:"name"`
-	Lname string `json:"lname,omitempty"`
-	Email string `json:"email"`
-	Msg   string `json:"msg"`
-}
-
-type Credentials struct {
-	Password string `json:"password"`
-	Username string `json:"username"`
-}
-
-type Response struct {
-	Key     string `json:"key"`
-	Value   string `json:"value"`
-	Expires int64  `json:"__expires,omitempty"`
-}
-
 func setUpDetaBase(name string) (*base.Base, error) {
 	d, err := deta.New()
 	if err != nil {
@@ -227,6 +204,85 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func changePwd(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	code := checkCookie(r)
+	if code != http.StatusOK {
+		w.WriteHeader(code)
+		return
+	}
+	if r.Body == nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	// parse body
+	var b changePwdData
+	err := json.NewDecoder(r.Body).Decode(&b)
+	if err != nil {
+		http.Error(w, "failed to parse body", http.StatusBadRequest)
+		return
+	}
+	// check if old and new password are provided
+	if b.NewPassword == "" || b.OldPassword == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
+	}
+	// check if new password is valid
+	if b.NewPassword == "" || len(b.NewPassword) <= 8 {
+		http.Error(w, "Invalid password", http.StatusBadRequest)
+		return
+	}
+	// check if old password is correct
+	db, err := setUpDetaBase("auth")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var storedCreds Response
+	err = db.Get("Admin", &storedCreds)
+	if err != nil {
+		http.Error(w, "Invalid username", http.StatusForbidden)
+		return
+	}
+	if storedCreds.Value != b.OldPassword {
+		http.Error(w, "Invalid password", http.StatusForbidden)
+		return
+	}
+	// update password
+	_, err = db.Put(&Response{
+		Key:   "Admin",
+		Value: b.NewPassword,
+	})
+	if err != nil {
+		http.Error(w, "failed to update password", http.StatusInternalServerError)
+		return
+	}
+	// invalidate all sessions
+	db, err = setUpDetaBase("auth")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var results []map[string]interface{}
+	_, err = db.Fetch(&base.FetchInput{
+		Dest: &results,
+	})
+	if err != nil {
+		http.Error(w, "failed to get data", http.StatusInternalServerError)
+		return
+	}
+	for _, v := range results {
+		if v["key"].(string) != "Admin" {
+			db.Delete(v["key"].(string))
+		}
+	}
+	w.Write([]byte("Success!"))
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -237,6 +293,7 @@ func main() {
 	http.HandleFunc("/get", get)
 	http.HandleFunc("/delete", delete)
 	http.HandleFunc("/signin", signIn)
+	http.HandleFunc("/changepwd", changePwd)
 
 	log.Printf("App listening on port %s!", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {

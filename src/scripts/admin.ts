@@ -99,4 +99,40 @@ if (localStorage.getItem('tokenExists') === 'true' && new Date(localStorage.getI
 	fetchData();
 }
 
+document.getElementById("mgm").addEventListener("click", () => {
+	let diag = document.querySelector('dialog');
+	diag.showModal();
+	document.getElementById("close").addEventListener("click", () => diag.close());
+	document.getElementById("changepwd-form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		let f = document.getElementById("changepwd-form") as HTMLFormElement;
+		let newPwd = (document.getElementById('newPwd') as HTMLInputElement).value;
+		if (newPwd.length <= 8) {
+			f.reset();
+			return alert("Password must be at least 8 characters long");
+		}
+		fetch("/api/changepwd", {
+			method: "POST",
+			mode: "same-origin",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				oldPassword: (document.getElementById('oldPwd') as HTMLInputElement).value,
+				newPassword: newPwd
+			}),
+		}).then(async (s) => {
+			if (s.status === 200) {
+				f.reset();
+				alert("Password changed successfully!");
+				return diag.close();
+			} else if (s.status === 403) {
+				return alert("Invalid current password");
+			}
+			console.error(s);
+			alert("An error occured while changing password\nPlease try again. We apologize for the inconvenience.");
+		});
+	})
+});
+
 console.info("Website made by Utsav (https://git.utsav2.dev/utsav)");
