@@ -38,18 +38,20 @@ async function fetchData() {
 	document.querySelectorAll('.del').forEach((el) => {
 		el.addEventListener('click', async (e) => {
 			const key = (e.target as HTMLTableCellElement).dataset.key;
-			if (!confirm("Are you sure?")) {
-				return alert("Alright!")
-			}
+			if (!confirm("Are you sure?")) 
+				return alert("Alright!");
 			const r = await fetch(`/api/delete`, {
+				mode: 'same-origin',
 				method: 'DELETE',
 				body: key,
 			});
 			if (r.ok) {
 				(e.target as HTMLTableCellElement).parentElement.remove();
-				if (document.querySelectorAll('tbody tr').length === 0) {
+				if (document.querySelectorAll('tbody tr').length === 0) 
 					return location.reload();
-				}
+			} else {
+				console.error(r);
+				alert("An error occurred while deleting the message\nPlease try again. We apologize for the inconvenience.");
 			}
 		});
 	});
