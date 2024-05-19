@@ -127,6 +127,7 @@ func add(w http.ResponseWriter, r *http.Request) {
 
 	_, err = db.Put(&dbData{
 		Value: data,
+		IP:    r.Header.Get("STE-Real-IP"),
 	})
 	if err != nil {
 		http.Error(w, "failed to put data", http.StatusInternalServerError)

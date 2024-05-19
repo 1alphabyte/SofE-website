@@ -3,6 +3,7 @@ package main
 type dbData struct {
 	Key   string   `json:"key,omitempty"`
 	Value FormData `json:"value"`
+	IP    string   `json:"ip"`
 }
 
 type FormData struct {

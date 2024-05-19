@@ -24,11 +24,13 @@ async function fetchData() {
 	data.forEach((item) => {
 		const row = document.createElement('tr');
 		let key = item.key;
+		let ip = item.ip;
 		item = item.value;
 		row.innerHTML = `
 		<td>${item.name} ${item.lname ?? ""}</td>
 		<td><a href="mailto:${item.email}">${item.email}</a></td>
 		<td>${item.msg}</td>
+		<td>${ip}</td>
 		<td data-key=${key} class=del>Delete</td>
 		`;
 		document.querySelector('tbody').appendChild(row);
