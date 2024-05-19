@@ -289,11 +289,11 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/add", add)
-	http.HandleFunc("/get", get)
-	http.HandleFunc("/delete", delete)
-	http.HandleFunc("/signin", signIn)
-	http.HandleFunc("/changepwd", changePwd)
+	http.HandleFunc("/api/add", add)
+	http.HandleFunc("/api/get", get)
+	http.HandleFunc("/api/delete", delete)
+	http.HandleFunc("/api/signin", signIn)
+	http.HandleFunc("/api/changepwd", changePwd)
 
 	log.Printf("App listening on port %s!", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {

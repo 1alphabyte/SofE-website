@@ -12,4 +12,3 @@ micros:
     run: ./server
     dev: go run .
     public: true
-    path: api
