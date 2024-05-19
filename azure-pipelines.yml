@@ -16,7 +16,6 @@ steps:
       echo "{\"access_token\":\"$(SPACE_ACCESS_TOKEN)\"}" | sudo tee /root/.detaspace/space_tokens
       sudo mkdir pjr_root
       sudo mv ./backend .space Spacefile ./pjr_root
-      sudo mv dist ./pjr_root/app
       sudo chmod -R 777 ./pjr_root
       cd ./pjr_root
       sudo /root/.detaspace/bin/space push
