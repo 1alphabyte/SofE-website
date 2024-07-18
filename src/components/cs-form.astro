@@ -1,7 +1,7 @@
 <form>
 	<div id="form-div-align">
 		<div class="form-div">
-			<label for="fname">First Name*</label>
+			<label for="fname">First Name<span>&ast;</span></label>
 			<input type="text" id="fname" name="fname" maxlength="50" required/>
 		</div>
 		<div class="form-div">
@@ -10,11 +10,11 @@
 		</div>
 	</div>
 	<div class="form-div">
-		<label for="eml">Email*</label>
+		<label for="eml">Email<span>&ast;</span></label>
 		<input type="email" id="eml" name="eml" maxlength="100" required/>
 	</div>
 	<div class="form-div">
-		<label for="msg">Message*</label>
+		<label for="msg">Message<span>&ast;</span></label>
 		<textarea maxlength="1000" id="msg" required/>
 	</div>
 	<input type="submit" value="Submit" id="btn-click"/>
@@ -23,6 +23,9 @@
 <script src="../scripts/cs-form.ts"></script>
 
 <style>
+	span {
+		color: #d61c1c;
+	}
 	@media (max-width: 480px) {
 		form {
 			padding: 5vh;
