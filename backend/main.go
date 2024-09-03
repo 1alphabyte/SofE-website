@@ -138,6 +138,7 @@ func add(w http.ResponseWriter, r *http.Request) {
 	doc.Set("msg", data.Msg)
 	doc.Set("lname", data.Lname)
 	doc.Set("IP", r.Header.Get("STE-Real-IP"))
+	doc.Set("time", time.Now().Unix())
 
 	_, err = db.InsertOne("data", doc)
 	if err != nil {
@@ -303,7 +304,7 @@ func main() {
 	http.HandleFunc("/api/changepwd", changePwd)
 
 	log.Printf("App listening on port %s!", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := http.ListenAndServe("127.0.0.1:"+port, nil); err != nil {
 		log.Fatal(err)
 	}
 }

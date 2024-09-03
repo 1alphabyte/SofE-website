@@ -24,4 +24,5 @@ type GetData struct {
 	Email string `clover:"email" json:"email"`
 	Msg   string `clover:"msg" json:"msg"`
 	Lname string `clover:"lname" json:"lname"`
+	Time  int64  `clover:"time" json:"time"`
 }

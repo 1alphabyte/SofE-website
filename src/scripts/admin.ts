@@ -30,6 +30,7 @@ async function fetchData() {
 		<td><a href="mailto:${item.email}">${item.email}</a></td>
 		<td>${item.msg}</td>
 		<td>${ip}</td>
+		<td>${new Date(item.time * 1000).toLocaleString()}</td>
 		<td data-key=${key} class=del>Delete</td>
 		`;
 		document.querySelector('tbody').appendChild(row);
