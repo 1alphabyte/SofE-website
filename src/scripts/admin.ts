@@ -25,7 +25,6 @@ async function fetchData() {
 		const row = document.createElement('tr');
 		let key = item.key;
 		let ip = item.ip;
-		item = item.value;
 		row.innerHTML = `
 		<td>${item.name} ${item.lname ?? ""}</td>
 		<td><a href="mailto:${item.email}">${item.email}</a></td>

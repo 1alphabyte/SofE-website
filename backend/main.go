@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -10,22 +9,11 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/deta/deta-go/deta"
-	"github.com/deta/deta-go/service/base"
 	"github.com/google/uuid"
+	c "github.com/ostafen/clover"
 )
 
-func setUpDetaBase(name string) (*base.Base, error) {
-	d, err := deta.New()
-	if err != nil {
-		return nil, fmt.Errorf("failed to create deta client")
-	}
-	db, err := base.New(d, name)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create deta base")
-	}
-	return db, nil
-}
+var db, _ = c.Open("data")
 
 func signIn(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -39,33 +27,45 @@ func signIn(w http.ResponseWriter, r *http.Request) {
 	var creds Credentials
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to parse body", http.StatusBadRequest)
 	}
-	db, err := setUpDetaBase("auth")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 
-	var storedCreds Response
-	err = db.Get(creds.Username, &storedCreds)
+	query := db.Query("auth").Where(c.Field("username").Eq(creds.Username))
+	exists, err := query.Exists()
 	if err != nil {
 		log.Println(err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+	if !exists {
 		http.Error(w, "Invalid username", http.StatusForbidden)
 		return
 	}
-	if storedCreds.Value != creds.Password {
+	storedCreds, err := query.FindFirst()
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+	if storedCreds.Get("password") != creds.Password {
 		http.Error(w, "Invalid password", http.StatusForbidden)
 		return
 	}
 
 	sessionToken := uuid.NewString()
 	expiresAt := time.Now().Add(72 * time.Hour).Unix()
-	db.Put(&Response{
-		Key:     sessionToken,
-		Value:   creds.Username,
-		Expires: expiresAt,
-	})
+	s := c.NewDocument()
+	s.Set("sessionToken", sessionToken)
+	s.Set("expiresAt", expiresAt)
+	s.Set("username", creds.Username)
+	_, err = db.InsertOne("auth", s)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Failed to create session", http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"sessionToken": sessionToken,
@@ -78,13 +78,25 @@ func checkCookie(r *http.Request) int {
 	if err != nil || tkn == nil || tkn.Value == "" {
 		return http.StatusUnauthorized
 	}
-	db, err := setUpDetaBase("auth")
+
+	data := db.Query("auth").Where(c.Field("sessionToken").Eq(tkn.Value))
+	d, err := data.Exists()
 	if err != nil {
+		log.Println(err)
 		return http.StatusInternalServerError
 	}
-	err = db.Get(tkn.Value, nil)
-	if err != nil {
+	if !d {
 		return http.StatusForbidden
+	}
+	decoded, err := data.FindFirst()
+	if err != nil {
+		log.Println(err)
+		return http.StatusInternalServerError
+	}
+
+	if decoded.Get("expiresAt").(int64) < time.Now().Unix() {
+		data.Delete()
+		return http.StatusUnauthorized
 	}
 	return http.StatusOK
 }
@@ -105,7 +117,13 @@ func add(w http.ResponseWriter, r *http.Request) {
 	var data FormData
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to parse body", http.StatusBadRequest)
+	}
+
+	if data.Name == "" || data.Email == "" || data.Msg == "" {
+		http.Error(w, "Invalid data", http.StatusBadRequest)
+		return
 	}
 
 	var re = regexp.MustCompile(`^[^@]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$`)
@@ -114,23 +132,17 @@ func add(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if data.Name == "" || data.Email == "" || data.Msg == "" {
-		http.Error(w, "Invalid data", http.StatusBadRequest)
-		return
-	}
+	doc := c.NewDocument()
+	doc.Set("name", data.Name)
+	doc.Set("email", data.Email)
+	doc.Set("msg", data.Msg)
+	doc.Set("lname", data.Lname)
+	doc.Set("IP", r.Header.Get("STE-Real-IP"))
 
-	db, err := setUpDetaBase("contact-form")
+	_, err = db.InsertOne("data", doc)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	_, err = db.Put(&dbData{
-		Value: data,
-		IP:    r.Header.Get("STE-Real-IP"),
-	})
-	if err != nil {
-		http.Error(w, "failed to put data", http.StatusInternalServerError)
+		log.Println(err)
+		http.Error(w, "Failed to save data", http.StatusInternalServerError)
 		return
 	}
 	w.Write([]byte("Success!"))
@@ -147,19 +159,17 @@ func get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := setUpDetaBase("contact-form")
+	docs, err := db.Query("data").FindAll()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var results []dbData
-	_, err = db.Fetch(&base.FetchInput{
-		Dest: &results,
-	})
-	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to get data", http.StatusInternalServerError)
 		return
+	}
+	var results []GetData
+	var result GetData
+	for _, doc := range docs {
+		doc.Unmarshal(&result)
+		results = append(results, result)
 	}
 
 	if len(results) == 0 {
@@ -168,7 +178,6 @@ func get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(results)
-
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
@@ -186,20 +195,16 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := setUpDetaBase("contact-form")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to read body", http.StatusInternalServerError)
 		return
 	}
 	key := string(bodyBytes)
-	err = db.Delete(key)
+	err = db.Query("data").DeleteById(key)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to delete data", http.StatusInternalServerError)
 		return
 	}
@@ -224,6 +229,7 @@ func changePwd(w http.ResponseWriter, r *http.Request) {
 	var b changePwdData
 	err := json.NewDecoder(r.Body).Decode(&b)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to parse body", http.StatusBadRequest)
 		return
 	}
@@ -232,60 +238,60 @@ func changePwd(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid data", http.StatusBadRequest)
 		return
 	}
-	// check if new password is valid
-	if b.NewPassword == "" || len(b.NewPassword) <= 8 {
-		http.Error(w, "Invalid password", http.StatusBadRequest)
+	// check if new password is long enough
+	if len(b.NewPassword) <= 8 {
+		http.Error(w, "Must be 8 or more characters", http.StatusBadRequest)
 		return
 	}
-	// check if old password is correct
-	db, err := setUpDetaBase("auth")
+	query := db.Query("auth").Where(c.Field("username").Eq("Admin"))
+	doc, err := query.FindFirst()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	var storedCreds Response
-	err = db.Get("Admin", &storedCreds)
-	if err != nil {
-		http.Error(w, "Invalid username", http.StatusForbidden)
-		return
-	}
-	if storedCreds.Value != b.OldPassword {
-		http.Error(w, "Invalid password", http.StatusForbidden)
-		return
-	}
-	// update password
-	_, err = db.Put(&Response{
-		Key:   "Admin",
-		Value: b.NewPassword,
-	})
-	if err != nil {
-		http.Error(w, "failed to update password", http.StatusInternalServerError)
-		return
-	}
-	// invalidate all sessions
-	db, err = setUpDetaBase("auth")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	var results []map[string]interface{}
-	_, err = db.Fetch(&base.FetchInput{
-		Dest: &results,
-	})
-	if err != nil {
+		log.Println(err)
 		http.Error(w, "failed to get data", http.StatusInternalServerError)
 		return
 	}
-	for _, v := range results {
-		if v["key"].(string) != "Admin" {
-			db.Delete(v["key"].(string))
-		}
+	if doc.Get("password") != b.OldPassword {
+		http.Error(w, "Invalid password", http.StatusForbidden)
+		return
 	}
+	// invalidate all sessions
+	err = db.Query("auth").Delete()
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+	// update password
+	d := c.NewDocument()
+	d.Set("username", "Admin")
+	d.Set("password", b.NewPassword)
+	_, err = db.InsertOne("auth", d)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Failed to set password", http.StatusInternalServerError)
+		return
+	}
+
 	w.Write([]byte("Success!"))
 }
 
+func initDB() {
+	db.CreateCollection("data")
+	db.CreateCollection("auth")
+	doc := c.NewDocument()
+	doc.Set("username", "Admin")
+	doc.Set("password", "defaultpassword")
+	db.InsertOne("auth", doc)
+}
+
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "init" {
+		initDB()
+		log.Println("Database initialized")
+	}
+
 	port := os.Getenv("PORT")
+
 	if port == "" {
 		port = "8080"
 	}

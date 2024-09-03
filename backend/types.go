@@ -1,11 +1,5 @@
 package main
 
-type dbData struct {
-	Key   string   `json:"key,omitempty"`
-	Value FormData `json:"value"`
-	IP    string   `json:"ip"`
-}
-
 type FormData struct {
 	Name  string `json:"name"`
 	Lname string `json:"lname,omitempty"`
@@ -18,13 +12,16 @@ type Credentials struct {
 	Username string `json:"username"`
 }
 
-type Response struct {
-	Key     string `json:"key"`
-	Value   string `json:"value"`
-	Expires int64  `json:"__expires,omitempty"`
-}
-
 type changePwdData struct {
 	OldPassword string `json:"oldPassword"`
 	NewPassword string `json:"newPassword"`
+}
+
+type GetData struct {
+	Key   string `clover:"_id" json:"key"`
+	Ip    string `clover:"IP" json:"ip"`
+	Name  string `clover:"name" json:"name"`
+	Email string `clover:"email" json:"email"`
+	Msg   string `clover:"msg" json:"msg"`
+	Lname string `clover:"lname" json:"lname"`
 }
