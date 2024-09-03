@@ -31,7 +31,7 @@ func signIn(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to parse body", http.StatusBadRequest)
 	}
 
-	query := db.Query("auth").Where(c.Field("username").Eq(creds.Username))
+	query := db.Query("users").Where(c.Field("username").Eq(creds.Username))
 	exists, err := query.Exists()
 	if err != nil {
 		log.Println(err)
@@ -59,7 +59,7 @@ func signIn(w http.ResponseWriter, r *http.Request) {
 	s.Set("sessionToken", sessionToken)
 	s.Set("expiresAt", expiresAt)
 	s.Set("username", creds.Username)
-	_, err = db.InsertOne("auth", s)
+	_, err = db.InsertOne("sessions", s)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Failed to create session", http.StatusInternalServerError)
@@ -79,7 +79,7 @@ func checkCookie(r *http.Request) int {
 		return http.StatusUnauthorized
 	}
 
-	data := db.Query("auth").Where(c.Field("sessionToken").Eq(tkn.Value))
+	data := db.Query("sessions").Where(c.Field("sessionToken").Eq(tkn.Value))
 	d, err := data.Exists()
 	if err != nil {
 		log.Println(err)
@@ -244,7 +244,7 @@ func changePwd(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Must be 8 or more characters", http.StatusBadRequest)
 		return
 	}
-	query := db.Query("auth").Where(c.Field("username").Eq("Admin"))
+	query := db.Query("users").Where(c.Field("username").Eq("Admin"))
 	doc, err := query.FindFirst()
 	if err != nil {
 		log.Println(err)
@@ -256,17 +256,14 @@ func changePwd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// invalidate all sessions
-	err = db.Query("auth").Delete()
+	err = db.Query("sessions").Delete()
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Error", http.StatusInternalServerError)
 		return
 	}
 	// update password
-	d := c.NewDocument()
-	d.Set("username", "Admin")
-	d.Set("password", b.NewPassword)
-	_, err = db.InsertOne("auth", d)
+	err = query.Update(map[string]interface{}{"password": b.NewPassword})
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Failed to set password", http.StatusInternalServerError)
@@ -278,17 +275,19 @@ func changePwd(w http.ResponseWriter, r *http.Request) {
 
 func initDB() {
 	db.CreateCollection("data")
-	db.CreateCollection("auth")
+	db.CreateCollection("users")
+	db.CreateCollection("sessions")
 	doc := c.NewDocument()
 	doc.Set("username", "Admin")
 	doc.Set("password", "defaultpassword")
-	db.InsertOne("auth", doc)
+	db.InsertOne("users", doc)
 }
 
 func main() {
 	if len(os.Args) > 1 && os.Args[1] == "init" {
 		initDB()
 		log.Println("Database initialized")
+		os.Exit(0)
 	}
 
 	port := os.Getenv("PORT")
