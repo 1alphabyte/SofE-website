@@ -17,7 +17,7 @@ All commands are run from the root of the project, from a terminal:
 
 Located in the `backend` directory, the backend is built with Go and uses Clover as a database. To run the backend, navigate to the `backend` directory and run `go run .`.
 
-### Deployment
+## Deployment
 
 1. Build the frontend
 - Install JavaScript dependencies with `pnpm install`
@@ -46,7 +46,7 @@ server {
 }
 ```
 
-- The backend can be run using SystemD 
+The backend can be run using SystemD 
 ```systemd
 [Unit]
 Description=Society of Engineering website contact form
